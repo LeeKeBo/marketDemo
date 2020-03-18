@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.justLearn.dao.ProductDao">
+    <select id="getProduct" parameterType="long" resultType="product">
+<!--         并发时会出错 -->
+        select id,product_name as productName,stock,price,version,note from
+        t_product where id=#{id}
+<!--
+        加排它锁
+         select id,product_name as productName,stock,price,version,note from
+         t_product where id=#{id} for update
+-->
+
+    </select>
+    <update id="decreaseProduct">
+<!--         并发时会出错
+         update t_product set stock = stock - #{quantity}
+         where id = #{id}
+             加乐观锁可以解决
+-->
+            update t_product set stock = stock - #{quantity} , version = version + 1
+            where id = #{id} and version = #{version}
+    </update>
+
+</mapper>
