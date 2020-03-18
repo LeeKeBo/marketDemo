@@ -8,7 +8,7 @@ create table T_Product(
 	primary key(id)
 );
 
-create table T_PUSRCHASE_RECORD(
+create table T_PURCHASE_RECORD(
     id int(12) not null auto_increment comment '编号',
     user_id int(12) not null comment '用户编号',
     product_id int(12) not null comment '产品编号',
